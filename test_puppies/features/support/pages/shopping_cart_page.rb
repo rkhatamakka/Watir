@@ -1,47 +1,37 @@
 class ShoppingCartPage
-  def initialize(browser)
-    @browser = browser
-  end
+  include PageObject
 
-  def name_for_line_item(line_item)
-    cart_line_item(line_item)[1]
-  end
+  NAME_COLUMN = 1
+  SUBTOTAL_COLUMN = 3
+  LINES_PER_PUPPY = 6
 
-  def subtotal_for_line(line_item)
-    cart_line_item(line_item)[3]
-  end
+  button(:complete_the_adoption, :value => 'Complete the Adoption' )
+  button(:adopt_another_puppy, :value => 'Adopt Another Puppy')
+  table(:cart, :index => 0)
+  cell(:cart_total, :class => 'total_cell')
 
-  def cart_total
-    @browser.td(:class => 'total_cell').text
+
+  def adopt_another_puppy_now
+    self.adopt_another_puppy
   end
 
   def proceed_to_check_out
-    @browser.button(:value=> 'Complete the Adoption').click
+    self.complete_the_adoption
   end
 
-  def continue_shopping
-    @browser.button(:value => 'Adopt Another Puppy').click
+  def name_for_line_item(line_item)
+    cart_line_item(line_item)[NAME_COLUMN]
   end
 
-  def name=(name)
-    @browser.text_field(:id=> 'order_name').set(name)
+  def subtotal_for_line(line_item)
+    cart_line_item(line_item)[SUBTOTAL_COLUMN]
   end
 
-  def address=(address)
-    @browser.text_field(:id=> 'order_address').set(address)
-  end
 
-  def email=(email)
-    @browser.text_field(:id=> 'order_email').set(email)
-  end
-
-  def pay_type=(pay_type)
-    @browser.select_list(:id=> 'order_pay_type').select(pay_type)
-  end
 
   private
   def row_for(line_item)
-    (line_item-1)*6
+    (line_item-1)*LINES_PER_PUPPY
   end
 
   def cart_line_item(line_item)

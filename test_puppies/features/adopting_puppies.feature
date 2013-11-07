@@ -8,7 +8,7 @@ So they can chew my furniture
   Scenario: Adopting one puppy
     Given I am on the puppy adoption site
     When I click the First View Details button
-    And I click the Adopt Me button
+    When I click the Adopt Me button
     And I click the Adopt Another Puppy button
     And I click the Second View Details button
     And I click the Adopt Me button
